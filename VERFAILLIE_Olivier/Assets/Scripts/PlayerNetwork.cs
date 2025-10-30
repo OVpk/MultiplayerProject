@@ -4,7 +4,7 @@ using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PlayerNetwork : NetworkBehaviour
+public abstract class PlayerNetwork : NetworkBehaviour
 {
     private readonly NetworkVariable<Vector3> playerPosition = new(
         Vector3.zero,
@@ -47,7 +47,7 @@ public class PlayerNetwork : NetworkBehaviour
     {
         if (!IsServer) return;
 
-        playerPosition.Value += direction.normalized * (moveSpeed * Time.deltaTime);
+        playerPosition.Value += direction.normalized * moveSpeed * Time.deltaTime;
         transform.position = playerPosition.Value;
     }
 }
@@ -56,6 +56,10 @@ public class PlayerNetwork : NetworkBehaviour
 
 public struct PlayerData : INetworkSerializable
 {
+    public enum MyEnum
+    {
+        
+    }
     public int life;
     public bool isStunt;
     public FixedString128Bytes message;
